@@ -32,7 +32,13 @@ export default function GlowButton({
 
   if (href) {
     return (
-      <motion.a href={href} whileHover={{ scale: 1.02, y: -1 }} whileTap={{ scale: 0.98 }} className={classes}>
+      <motion.a
+        href={href}
+        onClick={onClick}
+        whileHover={{ scale: 1.02, y: -1 }}
+        whileTap={{ scale: 0.98 }}
+        className={classes}
+      >
         {content}
       </motion.a>
     );

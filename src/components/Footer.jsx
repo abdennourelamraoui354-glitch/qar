@@ -1,6 +1,7 @@
 import { MessageCircle, Mail, ExternalLink } from 'lucide-react';
 import { CONTACT, buildWhatsAppUrl } from '../lib/constants';
 import { useLanguage } from '../lib/i18n/LanguageContext';
+import { trackLead } from '../lib/tiktokPixel';
 
 export default function Footer() {
   const { t } = useLanguage();
@@ -41,8 +42,13 @@ export default function Footer() {
             <p className="text-[10px] uppercase tracking-wider text-[#64748b] mb-3 font-semibold">{f.contact}</p>
             <ul className="space-y-2">
               <li>
-                <a href={buildWhatsAppUrl(t.wa.default)} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm text-[#25D366] hover:text-[#20bd5a]">
+                <a
+                  href={buildWhatsAppUrl(t.wa.default)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => trackLead({ content_name: 'footer_whatsapp' })}
+                  className="inline-flex items-center gap-2 text-sm text-[#25D366] hover:text-[#20bd5a]"
+                >
                   <MessageCircle size={14} /> {CONTACT.whatsappDisplay}
                 </a>
               </li>

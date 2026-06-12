@@ -3,6 +3,7 @@ import { ArrowRight, Mail, MessageCircle, ExternalLink, Sparkles } from 'lucide-
 import { CONTACT, buildWhatsAppUrl } from '../lib/constants';
 import { useLanguage } from '../lib/i18n/LanguageContext';
 import GlowButton from './ui/GlowButton';
+import { trackLead } from '../lib/tiktokPixel';
 
 export default function FinalCTA() {
   const { t, isAr } = useLanguage();
@@ -48,7 +49,11 @@ export default function FinalCTA() {
                 { icon: Mail, label: 'Email', value: CONTACT.email, href: `mailto:${CONTACT.email}` },
                 { icon: ExternalLink, label: 'Instagram', value: CONTACT.instagramHandle, href: CONTACT.instagram },
               ].map(({ icon: Icon, label, value, href }) => (
-                <motion.a key={label} href={href} whileHover={{ y: -4 }}
+                <motion.a
+                  key={label}
+                  href={href}
+                  onClick={label === 'WhatsApp' ? () => trackLead({ content_name: 'final_cta_whatsapp' }) : undefined}
+                  whileHover={{ y: -4 }}
                   target={href.startsWith('http') ? '_blank' : undefined} rel="noopener noreferrer"
                   className="flex flex-col items-center gap-2 p-4 rounded-2xl glass-strong hover:bg-white/[0.06] transition-colors group border border-white/[0.06]">
                   <Icon size={20} className="text-[#8bb8a8] group-hover:text-[#a8d4c4]" />

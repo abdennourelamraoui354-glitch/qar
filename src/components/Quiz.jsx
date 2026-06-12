@@ -12,6 +12,7 @@ import { useLanguage } from '../lib/i18n/LanguageContext';
 import SectionHeader from './ui/SectionHeader';
 import GlowButton from './ui/GlowButton';
 import { cn } from '../lib/utils';
+import { trackSubmitForm } from '../lib/tiktokPixel';
 
 const ICON_MAP = {
   stethoscope: Stethoscope, smile: Smile, scissors: Scissors, utensils: Utensils,
@@ -57,6 +58,7 @@ export default function Quiz() {
   const go = (next) => { setDirection(next > step ? 1 : -1); setStep(next); };
   const handleSubmit = () => {
     if (!canProceed()) return;
+    trackSubmitForm({ content_name: 'website_quiz', content_type: 'quiz' });
     window.open(buildWhatsAppUrl(t.wa.quiz(answers)), '_blank', 'noopener,noreferrer');
   };
 

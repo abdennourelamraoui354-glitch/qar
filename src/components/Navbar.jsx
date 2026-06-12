@@ -4,6 +4,7 @@ import { buildWhatsAppUrl } from '../lib/constants';
 import { useLanguage } from '../lib/i18n/LanguageContext';
 import { translations } from '../lib/i18n/translations';
 import GlowButton from './ui/GlowButton';
+import { trackLead } from '../lib/tiktokPixel';
 
 export default function Navbar() {
   const { t, toggle, lang, isAr } = useLanguage();
@@ -34,7 +35,12 @@ export default function Navbar() {
             <Languages size={14} />
             {lang === 'en' ? 'عربي' : 'EN'}
           </button>
-          <GlowButton href={buildWhatsAppUrl(translations[lang].wa.default)} variant="green" className="!px-3 !py-2 !rounded-lg !text-xs">
+          <GlowButton
+            href={buildWhatsAppUrl(translations[lang].wa.default)}
+            variant="green"
+            className="!px-3 !py-2 !rounded-lg !text-xs"
+            onClick={() => trackLead({ content_name: 'navbar_whatsapp' })}
+          >
             <MessageCircle size={14} />
             <span className="hidden sm:inline">{t.nav.whatsapp}</span>
           </GlowButton>

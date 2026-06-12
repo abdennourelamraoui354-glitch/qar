@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { buildWhatsAppUrl } from '../lib/constants';
 import { useLanguage } from '../lib/i18n/LanguageContext';
+import { trackContact } from '../lib/tiktokPixel';
 
 function WhatsAppIcon() {
   return (
@@ -19,6 +20,7 @@ export default function WhatsAppButton() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label={t.wa.sticky}
+      onClick={() => trackContact({ content_name: 'sticky_whatsapp' })}
       initial={{ scale: 0, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
       transition={{ delay: 1, type: 'spring', stiffness: 260, damping: 22 }}

@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Marquee from './components/Marquee';
 import WhatsAppButton from './components/WhatsAppButton';
+import TikTokPixel from './components/TikTokPixel';
 import LazySection from './components/ui/LazySection';
 
 const Problem = lazy(() => import('./components/Problem'));
@@ -21,6 +22,7 @@ const Footer = lazy(() => import('./components/Footer'));
 export default function App() {
   return (
     <div className="min-h-screen bg-[#0a0e14] text-[#e2e8f0] relative">
+      <TikTokPixel />
       <AnimatedBackground />
       <Navbar />
       <main className="relative z-10">

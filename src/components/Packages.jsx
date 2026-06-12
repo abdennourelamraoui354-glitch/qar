@@ -6,6 +6,7 @@ import { useLanguage } from '../lib/i18n/LanguageContext';
 import SectionHeader from './ui/SectionHeader';
 import GlowButton from './ui/GlowButton';
 import { cn } from '../lib/utils';
+import { trackClickButton } from '../lib/tiktokPixel';
 
 export default function Packages() {
   const { t } = useLanguage();
@@ -101,6 +102,7 @@ function PackageCard({ pkg, p, t, index, className, mobile }) {
             href={buildWhatsAppUrl(t.wa.package(pkg.name, pkg.priceQar))}
             variant={pkg.highlighted || pkg.premium ? 'primary' : 'outline'}
             className="w-full !py-3 !text-sm"
+            onClick={() => trackClickButton({ content_name: pkg.name, value: pkg.priceQar, currency: 'QAR' })}
           >
             {pkg.highlighted && <Zap size={14} />}
             {pkg.cta}
