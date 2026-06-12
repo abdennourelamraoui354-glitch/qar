@@ -1,75 +1,51 @@
-import { MessageCircle, Mail, ExternalLink } from 'lucide-react';
-import { CONTACT, buildWhatsAppUrl } from '../lib/constants';
-import { useLanguage } from '../lib/i18n/LanguageContext';
+import { CONTACT } from '../lib/constants';
+import { buildWhatsAppUrl } from '../lib/constants';
+import { MARKET } from '../lib/siteContent';
 import { trackLead } from '../lib/tiktokPixel';
 
 export default function Footer() {
-  const { t } = useLanguage();
-  const f = t.footer;
-  const nav = [
-    { label: t.nav.quiz, href: '#quiz' },
-    { label: t.nav.packages, href: '#packages' },
-    { label: t.nav.work, href: '#portfolio' },
-    { label: t.process.eyebrow, href: '#process' },
-    { label: t.nav.faq, href: '#faq' },
-  ];
-
   return (
-    <footer className="relative z-10 border-t border-white/[0.06] bg-[#0d1218]/80">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-10">
-          <div>
-            <p className="font-display text-xl font-bold mb-2">
-              Noun<span className="text-gradient-accent">motion</span>
-            </p>
-            <p className="text-[#64748b] text-sm">{t.brand.tagline}</p>
-          </div>
-          <div>
-            <p className="text-[10px] uppercase tracking-wider text-[#64748b] mb-3 font-semibold">{f.navigate}</p>
-            <ul className="space-y-2">
-              {nav.map((l) => (
-                <li key={l.href}><a href={l.href} className="text-sm text-[#94a3b8] hover:text-white">{l.label}</a></li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <p className="text-[10px] uppercase tracking-wider text-[#64748b] mb-3 font-semibold">{f.markets}</p>
-            <ul className="space-y-2 text-sm text-[#94a3b8]">
-              {f.marketsList.map((m) => <li key={m}>{m}</li>)}
-            </ul>
-          </div>
-          <div>
-            <p className="text-[10px] uppercase tracking-wider text-[#64748b] mb-3 font-semibold">{f.contact}</p>
-            <ul className="space-y-2">
-              <li>
-                <a
-                  href={buildWhatsAppUrl(t.wa.default)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => trackLead({ content_name: 'footer_whatsapp' })}
-                  className="inline-flex items-center gap-2 text-sm text-[#25D366] hover:text-[#20bd5a]"
-                >
-                  <MessageCircle size={14} /> {CONTACT.whatsappDisplay}
-                </a>
-              </li>
-              <li>
-                <a href={`mailto:${CONTACT.email}`} className="inline-flex items-center gap-2 text-sm text-[#94a3b8] hover:text-white">
-                  <Mail size={14} /> {CONTACT.email}
-                </a>
-              </li>
-              <li>
-                <a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm text-[#94a3b8] hover:text-white">
-                  <ExternalLink size={14} /> {CONTACT.instagramHandle}
-                </a>
-              </li>
-            </ul>
-          </div>
+    <footer className="bg-slate-900 text-slate-300 py-12">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 grid md:grid-cols-3 gap-8">
+        <div>
+          <img src="/logo.svg" alt="Nounmotion" className="h-9 mb-4 brightness-0 invert" />
+          <p className="text-sm leading-relaxed">
+            Nounmotion — استوديو تطوير مواقع الويب في {MARKET.country}. {MARKET.cities}.
+          </p>
         </div>
-        <div className="pt-6 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-[#64748b]">
-          <p>© {new Date().getFullYear()} Nounmotion</p>
-          <p>{f.copy}</p>
+        <div>
+          <h4 className="font-bold text-white mb-3">روابط</h4>
+          <ul className="space-y-2 text-sm">
+            <li><a href="#services" className="hover:text-white">الخدمات</a></li>
+            <li><a href="#portfolio" className="hover:text-white">أعمالنا</a></li>
+            <li><a href="#packages" className="hover:text-white">الباقات</a></li>
+            <li><a href="#contact" className="hover:text-white">تواصل</a></li>
+          </ul>
         </div>
+        <div>
+          <h4 className="font-bold text-white mb-3">تواصل</h4>
+          <ul className="space-y-2 text-sm">
+            <li>{CONTACT.whatsappDisplay}</li>
+            <li>{CONTACT.email}</li>
+            <li>
+              <a href={CONTACT.instagram} target="_blank" rel="noopener noreferrer" className="hover:text-white">
+                {CONTACT.instagramHandle}
+              </a>
+            </li>
+          </ul>
+          <a
+            href={buildWhatsAppUrl()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block mt-4 btn-primary text-sm"
+            onClick={() => trackLead({ contentName: 'Footer WhatsApp' })}
+          >
+            واتساب
+          </a>
+        </div>
+      </div>
+      <div className="max-w-6xl mx-auto px-4 mt-10 pt-6 border-t border-slate-800 text-center text-xs text-slate-500">
+        © {new Date().getFullYear()} Nounmotion — {CONTACT.domain}
       </div>
     </footer>
   );

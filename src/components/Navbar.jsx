@@ -1,51 +1,63 @@
-import { motion } from 'framer-motion';
-import { MessageCircle, Languages } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
+import { useState } from 'react';
 import { buildWhatsAppUrl } from '../lib/constants';
-import { useLanguage } from '../lib/i18n/LanguageContext';
-import { translations } from '../lib/i18n/translations';
-import GlowButton from './ui/GlowButton';
 import { trackLead } from '../lib/tiktokPixel';
 
+const LINKS = [
+  { href: '#services', label: 'الخدمات' },
+  { href: '#portfolio', label: 'أعمالنا' },
+  { href: '#packages', label: 'الباقات' },
+  { href: '#process', label: 'مراحل العمل' },
+  { href: '#contact', label: 'تواصل معنا' },
+];
+
 export default function Navbar() {
-  const { t, toggle, lang, isAr } = useLanguage();
-  const nav = [
-    { label: t.nav.quiz, href: '#quiz' },
-    { label: t.nav.packages, href: '#packages' },
-    { label: t.nav.work, href: '#portfolio' },
-    { label: t.nav.faq, href: '#faq' },
-  ];
+  const [open, setOpen] = useState(false);
 
   return (
-    <motion.header initial={{ y: -12, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="fixed top-0 inset-x-0 z-50 px-4 sm:px-6">
-      <nav className="max-w-7xl mx-auto mt-3 flex items-center justify-between glass-strong rounded-xl px-4 py-2.5">
-        <a href="#" className="font-display text-lg font-bold">
-          Noun<span className="text-gradient-accent">motion</span>
+    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+        <a href="#" className="flex items-center gap-2">
+          <img src="/logo.svg" alt="Nounmotion" className="h-9" />
         </a>
 
-        <div className="hidden md:flex items-center gap-1">
-          {nav.map((link) => (
-            <a key={link.href} href={link.href} className="px-3 py-1.5 rounded-lg text-sm text-[#94a3b8] hover:text-white hover:bg-white/5">
-              {link.label}
+        <nav className="hidden md:flex items-center gap-8">
+          {LINKS.map((l) => (
+            <a key={l.href} href={l.href} className="text-sm font-medium text-slate-600 hover:text-blue-600 transition">
+              {l.label}
             </a>
           ))}
+        </nav>
+
+        <div className="hidden md:flex items-center gap-3">
+          <a
+            href={buildWhatsAppUrl('مرحباً، أريد استفساراً عن تطوير موقع ويب')}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary text-sm py-2.5"
+            onClick={() => trackLead({ contentName: 'Navbar WhatsApp' })}
+          >
+            واتساب
+          </a>
         </div>
 
-        <div className="flex items-center gap-2">
-          <button type="button" onClick={toggle} className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg glass text-xs text-[#94a3b8] hover:text-white" aria-label="Toggle language">
-            <Languages size={14} />
-            {lang === 'en' ? 'عربي' : 'EN'}
-          </button>
-          <GlowButton
-            href={buildWhatsAppUrl(translations[lang].wa.default)}
-            variant="green"
-            className="!px-3 !py-2 !rounded-lg !text-xs"
-            onClick={() => trackLead({ content_name: 'navbar_whatsapp' })}
-          >
-            <MessageCircle size={14} />
-            <span className="hidden sm:inline">{t.nav.whatsapp}</span>
-          </GlowButton>
+        <button type="button" className="md:hidden p-2" onClick={() => setOpen(!open)} aria-label="القائمة">
+          {open ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+        </button>
+      </div>
+
+      {open && (
+        <div className="md:hidden border-t border-slate-200 bg-white px-4 py-4 space-y-3">
+          {LINKS.map((l) => (
+            <a key={l.href} href={l.href} className="block text-slate-700 font-medium" onClick={() => setOpen(false)}>
+              {l.label}
+            </a>
+          ))}
+          <a href={buildWhatsAppUrl()} target="_blank" rel="noopener noreferrer" className="btn-primary w-full">
+            واتساب
+          </a>
         </div>
-      </nav>
-    </motion.header>
+      )}
+    </header>
   );
 }
